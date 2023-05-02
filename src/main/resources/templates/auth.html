@@ -11,11 +11,10 @@
 <body>
 	<div class = "auth-board">
 		<h1>Авторизация</h1>
-		<form class = "auth-form" method = "GET" action = "/inorder">
+		<form class = "auth-form" method="post" action="/auth/check">
 			<input type="text" name="login" placeholder="Логин">
 			<input type="password" name="password" placeholder="Пароль">
-			<input class = "submit-button" type = submit value = "Войти">
-<!--			<div class = "submit-button">Войти</div>-->
+			<input type = "submit" class = "submit-button" value="Войти">
 		</form>
 	</div>
 </body>
