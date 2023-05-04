@@ -2,19 +2,19 @@ package com.ezyxip.runiwweb;
 
 import com.ezyxip.runiwweb.jpa.User;
 import com.ezyxip.runiwweb.jpa.UsersCrud;
+import com.ezyxip.runiwweb.json.Position;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.session.MapSession;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Controller
@@ -68,5 +68,16 @@ public class MainController {
             }
         }
         return "redirect:../";
+    }
+
+    @RequestMapping("/neworder")
+    public String orderEdit(){
+        return "order-form.html";
+    }
+
+    @RequestMapping(value = "/addorder", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void orderAdd(HttpServletResponse response, @RequestBody Map<Integer, Position> body){
+        response.setStatus(200);
+        logger.info(body.toString());
     }
 }
