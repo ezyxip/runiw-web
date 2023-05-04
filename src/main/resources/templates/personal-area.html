@@ -10,8 +10,8 @@
 </head>
 <body>
 	<div class = "pa-header">
-		<span class = "name">[[username]]</span>
-		<span class = "clue">Вы для нас пользователь номер [[userid]]</span>
+		<span class = "name" th:text = "${username}"></span>
+		<span class = "clue" th:text = "'Вы для нас пользователь номер ' +  ${id}"></span>
 	</div>
 	<div class = "pa-menu-container">
 		<div class = "menu-item">

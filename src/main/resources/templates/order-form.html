@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href = "style3.css" rel = "stylesheet" type = "text/css">
+
+	<title>Создание заказа</title>
+
+
+	<script type="text/javascript">
+
+		var added_position = {
+			0: {
+				type : "Конфеты \"Коровка\"",
+				count : "50кг",
+			},
+			1: {
+				type : "Бибимоль",
+				count : "3шт",
+			},
+			2: {
+				type : "Рояль",
+				count : "10кг",
+			},
+			3: {
+				type : "Вода",
+				count : "15л",
+			},
+			4: {
+				type : "Аптечка автомобильная",
+				count : "3шт",
+			},
+			5: {
+				type : "Будущее светлое, нефильтрованное",
+				count : "1шт",
+			},
+			6: {
+				type : "Шуруп",
+				count : "1уп",
+			},
+		};
+		var added_position_index = 7;
+		var add_button_flag = true;
+
+		function add_position() {
+			let product_type = document.getElementById("product-type");
+			let product_count = document.getElementById("product-count");
+			added_position[added_position_index] = {};
+			added_position[added_position_index].type = product_type.value;
+			added_position[added_position_index].count = product_count.value;
+			added_position_index++;
+			update_position();
+		}
+
+		function update_position(){
+			if(add_button_flag){
+				let half_left = document.getElementsByClassName("order-edit-half-left")[0];
+				half_left.innerHTML += "<div class = 'submit-button' onclick = 'send_order()'>Отправить</div>"
+				add_button_flag = false
+			}
+			document.getElementById("added-position-container").innerHTML = ""
+			for(const i in added_position){
+				let added_position_container = "<div class = 'position-card'>"+added_position[i].type + " : " +added_position[i].count +"</div>"
+				document.getElementById("added-position-container").innerHTML += added_position_container
+			}
+		}
+
+
+		async function send_order() {
+			let req = await fetch("/addorder", {
+				method: "POST",
+				headers: {
+					'Content-type' : 'application/json;charset=utf-8'
+				},
+				body: JSON.stringify(added_position)
+			})
+
+			if(req.ok){
+				windows.location = "/"
+			}else{
+				alert("Ошибка: " + req.status)
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class = "order-edit-half-left">
+		<span class = "title">Создание заказа</span>
+		<span class = "help">Чтобы сделать заказ, необходимо параметризировать каждую позицию. Заказ может состоять из нескольких позиций</span>
+		<div id = "added-position-container"></div>
+	</div>
+	<div class = "order-edit-half-right">
+		<input type="text" name="type" placeholder="Название товара" id = "product-type">
+		<input type="text" name="count" placeholder="Количество товара" id = "product-count">
+		<button class = "order-position-select" onclick="add_position()">Добавить</button>
+	</div>
+</body>
+</html>
